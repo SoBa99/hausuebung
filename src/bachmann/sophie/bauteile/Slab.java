@@ -11,7 +11,9 @@ public class Slab extends Stahlbetonbauteil {
 	private ArrayList<Opening> openings = new ArrayList<Opening>();
 	
 	// constructor
-	public Slab (double width, double lenght, double height) {
+	public Slab (String festigkeitsklasse, double bewehrungsgrad, double width, double lenght, double height) {
+		this.festigkeitsklasse = festigkeitsklasse;
+		this.bewehrungsgrad = bewehrungsgrad;
 		this.width = width;
 		this.length = lenght;
 		this.height = height;

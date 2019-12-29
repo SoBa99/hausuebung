@@ -4,7 +4,7 @@ public abstract class Stahlbetonbauteil implements Volumen {
 
 	// private variables
 	public static double stahldichte;
-	private String festigkeitsklasse;
+	protected String festigkeitsklasse;
 	protected double bewehrungsgrad;
 	
 	// override überschreibt die im interface angelegten funktionen und macht diese speziell
@@ -12,5 +12,8 @@ public abstract class Stahlbetonbauteil implements Volumen {
 	public double getVolumen() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	public static void setStahldichte(double dichte) {
+		stahldichte = dichte;
 	}
 }

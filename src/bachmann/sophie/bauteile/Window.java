@@ -3,11 +3,11 @@ package bachmann.sophie.bauteile;
 public class Window extends Opening {
 
 	//private variables
-	private double bruestungsbreite;
+	private double bruestungshoehe;
 	
 	//constructor
-	public Window(double width, double height, double bruestungsbreite) {
+	public Window(double width, double height, double bruestungshoehe) {
 		super(width, height);
-		this.bruestungsbreite = bruestungsbreite;
+		this.bruestungshoehe = bruestungshoehe;
 	}
 }
