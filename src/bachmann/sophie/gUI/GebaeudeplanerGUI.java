@@ -20,7 +20,6 @@ public class GebaeudeplanerGUI {
 		this.chckbxFensterUndTuermenge = chckbxFensterUndTuermenge;
 		this.chckbxBetonUndBewehrungsmenge = chckbxBetonUndBewehrungsmenge;
 		this.chckbxSeitlicheWandflaeche = chckbxSeitlicheWandflaeche;
-		
 	}
 }
 

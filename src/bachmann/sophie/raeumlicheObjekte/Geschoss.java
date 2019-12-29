@@ -5,7 +5,6 @@ import bachmann.sophie.bauteile.Rundstuetze;
 import bachmann.sophie.bauteile.Mauerwerkswand;
 import bachmann.sophie.bauteile.Slab;
 
-// TODO implement classes from above
 public class Geschoss {
 
 	// private variables
@@ -16,15 +15,14 @@ public class Geschoss {
 	private ArrayList<Mauerwerkswand> mauerwerkswaende = new ArrayList<Mauerwerkswand>();
 	private Slab slab;
 	
-	
-	// public variables
-	
 	// constructor
+	public Geschoss(String bezeichnung, double hoehe, boolean dachgeschoss) {
+		this.bezeichnung = bezeichnung;
+		this.hoehe = hoehe;
+		this.dachgeschoss = dachgeschoss;
+	}
 
-	
-	// TODO: constructor schreiben
-	
-	
+	//assoziation
 	public ArrayList<Rundstuetze> getRundstuetzen() {
 		return rundstuetzen;
 	}
