@@ -21,6 +21,11 @@ public class Building {
 			String strasse, int hausnummer, String plz, String ort) {
 		this.bezeichnung = bezeichnung;
 		this.bauherr_Vorname = bauherr_Vorname;
+		this.bauherr_Nachname = bauherr_Nachname;
+		this.strasse = strasse;
+		this.hausnummer = hausnummer;
+		this.plz = plz;
+		this.ort = ort;
 	}
 
 	// assoziation

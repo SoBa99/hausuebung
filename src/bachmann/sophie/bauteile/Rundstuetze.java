@@ -8,7 +8,7 @@ public class Rundstuetze extends Stahlbetonbauteil {
 	private Geschoss geschoss;
 
 	// constructor
-	public Rundstuetze(String festigekitsklasse, double bewehrungsgrad, double durchmesser) {
+	public Rundstuetze(String festigkeitsklasse, double bewehrungsgrad, double durchmesser) {
 		this.festigkeitsklasse = festigkeitsklasse;
 		this.bewehrungsgrad = bewehrungsgrad;
 		this.durchmesser = durchmesser;
