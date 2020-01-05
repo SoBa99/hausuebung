@@ -1,12 +1,15 @@
-package bachmann.sophie.hausuebung;
+package bachmann.sophie.hausuebung_main;
 
 import bachmann.sophie.raeumlicheObjekte.*;
 import bachmann.sophie.bauteile.*;
 import bachmann.sophie.gUI.*;
 
+import java.util.ArrayList;
+
 public class Bauprojekt {
 
 	public static void main(String[] args) {
+		System.out.println("Main started");
 		/*-------Instanziierung-------*/ 
 		Stahlbetonbauteil.setStahldichte(7.85);
 		
@@ -89,7 +92,33 @@ public class Bauprojekt {
 		EG.addMauerwerkswand(IW12);
 		EG.addMauerwerkswand(IW13);
 		EG.setSlab(Decke);
+
+		System.out.println(getAllOpenings(Gebaeude).size());
 		
 		
+	}
+	private static ArrayList<Opening> getAllOpenings(Building meinGebaeude) {
+		ArrayList<Geschoss> Etagen = new ArrayList<Geschoss>();
+		ArrayList<Mauerwerkswand> Waende = new ArrayList<Mauerwerkswand>();
+		ArrayList<Opening> EtagenOeffnungen = new ArrayList<Opening>();  // Öffnungen je Etage (verändert ihren Wert je nach Etage)
+		ArrayList<Opening> GebaeudeOeffnungen = new ArrayList<Opening>();  // Arraylist aller Öffnungen des gesamten Gebäudes
+		int anzahlEtagen;
+		int anzahlWaende;
+		Etagen = meinGebaeude.getGeschosse();
+		anzahlEtagen = Etagen.size();
+		for (int i = 0; i<anzahlEtagen; i++) {
+			Waende = Etagen.get(i).getMauerwerkswaende();
+			anzahlWaende = Waende.size();
+			for (int k = 0; k<anzahlWaende; k++) {
+				/* Öffnungen einer Wand stehen in einer ArrayList; Diese muss mit addAll() zu der Arraylist hinzugefügt
+				werden, welche alle Öffnungen dieser Etage enthält.*/
+				EtagenOeffnungen.addAll(Waende.get(k).getOpenings());
+			}
+			GebaeudeOeffnungen.addAll(EtagenOeffnungen);
+			/* man könnte auch gleich oben statt EtagenOeffnungen GebaeudeOeffnungen nehmen, aber so ist es vllt
+			übersichtlicher */
+			EtagenOeffnungen.clear();
+		}
+		return GebaeudeOeffnungen;
 	}
 }

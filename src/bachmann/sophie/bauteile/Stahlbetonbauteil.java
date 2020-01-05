@@ -1,10 +1,5 @@
 package bachmann.sophie.bauteile;
 
-import bachmann.sophie.hausuebung.*;
-import bachmann.sophie.bauteile.Bodenplatte;
-import bachmann.sophie.bauteile.Einzelfundament;
-import bachmann.sophie.bauteile.Rundstuetze;
-
 public abstract class Stahlbetonbauteil implements Volumen {
 
 	// private variables
@@ -22,7 +17,7 @@ public abstract class Stahlbetonbauteil implements Volumen {
 		stahldichte = dichte;
 	}
 	// Volumenberechnung
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		double breite;
 		double tiefe;
 		double laenge;
@@ -31,7 +26,7 @@ public abstract class Stahlbetonbauteil implements Volumen {
 		System.out.println("Volumen Bodenplatte: " + (tiefe * breite * laenge));
 		System.out.println("Volumen Einzelfundament: " + (tiefe * breite * breite)); // weil quadratisch
 		System.out.println("Volumen Rundstuetze: " + (Math.PI * durchmesser * hoehe));
-	}
+	}*/
 	
 	
 	
