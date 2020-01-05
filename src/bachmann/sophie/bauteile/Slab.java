@@ -18,7 +18,7 @@ public class Slab extends Stahlbetonbauteil {
 		this.length = lenght;
 		this.height = height;
 	}
-	//test
+	/*//test
 	public double getwidth(){
 		return width;
 	}
@@ -28,7 +28,7 @@ public class Slab extends Stahlbetonbauteil {
 	public double getheight(){
 		return height;
 	}
-	//test
+	//test */
 	// assoziation
 	public ArrayList<Opening> getOpenings() {
 		return openings;
