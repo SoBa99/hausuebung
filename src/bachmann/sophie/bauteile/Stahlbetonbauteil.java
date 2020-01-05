@@ -2,7 +2,7 @@ package bachmann.sophie.bauteile;
 
 public abstract class Stahlbetonbauteil implements Volumen {
 
-	// private variables
+	public double volumen;
 	public static double stahldichte;
 	protected String festigkeitsklasse;
 	protected double bewehrungsgrad;
@@ -10,24 +10,26 @@ public abstract class Stahlbetonbauteil implements Volumen {
 	// override überschreibt die im interface angelegten funktionen und macht diese speziell
 	@Override
 	public double getVolumen() {
-		// TODO Auto-generated method stub
+
 		return 0;
 	}
 	public static void setStahldichte(double dichte) {
 		stahldichte = dichte;
 	}
-	// Volumenberechnung
-	/*public static void main(String[] args) {
-		double breite;
-		double tiefe;
-		double laenge;
-		double hoehe;
-		double durchmesser;
-		System.out.println("Volumen Bodenplatte: " + (tiefe * breite * laenge));
-		System.out.println("Volumen Einzelfundament: " + (tiefe * breite * breite)); // weil quadratisch
-		System.out.println("Volumen Rundstuetze: " + (Math.PI * durchmesser * hoehe));
-	}*/
-	
-	
-	
+	public String getFestigkeitsklasse() {
+		return festigkeitsklasse;
+	}
+
+	public double zylinderVolumen(double hight, double radius) {
+		double zVolumen = 0;
+		zVolumen = Math.PI * hight * Math.pow(radius, 2);
+		return zVolumen;
+	}
+	public double kubusVolumen(double height, double width, double length) {
+		double kVolumen = 0;
+		kVolumen = height * width * length;
+		return kVolumen;
+	}
+
+
 }
