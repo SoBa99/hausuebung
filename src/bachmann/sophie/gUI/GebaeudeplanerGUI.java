@@ -2,15 +2,7 @@ package bachmann.sophie.gUI;
 
 import javax.swing.JFrame;
 
-import bachmann.sophie.bauteile.Bodenplatte;
-import bachmann.sophie.bauteile.Door;
-import bachmann.sophie.bauteile.Einzelfundament;
-import bachmann.sophie.bauteile.Mauerwerkswand;
-import bachmann.sophie.bauteile.Opening;
-import bachmann.sophie.bauteile.Rundstuetze;
-import bachmann.sophie.bauteile.Slab;
-import bachmann.sophie.bauteile.Stahlbetonbauteil;
-import bachmann.sophie.bauteile.Window;
+import bachmann.sophie.bauteile.*;
 import bachmann.sophie.raeumlicheObjekte.Building;
 import bachmann.sophie.raeumlicheObjekte.Geschoss;
 
@@ -25,7 +17,7 @@ public class GebaeudeplanerGUI {
 	private JCheckBox chckbxFensterUndTuermenge;
 	private JCheckBox chckbxBetonUndBewehrungsmenge;
 	private JCheckBox chckbxSeitlicheWandflaeche;
-	
+
 	// constructor
 	public GebaeudeplanerGUI(JFrame frmGebaeudeplaner,
 	JCheckBox chckbxFensterUndTuermenge,
@@ -37,11 +29,11 @@ public class GebaeudeplanerGUI {
 		this.chckbxSeitlicheWandflaeche = chckbxSeitlicheWandflaeche;
 	}
 	public static void main(String[] args) {
-		/*-------Instanziierung-------*/ 
+		/*-------Instanziierung-------*/
 		Stahlbetonbauteil.setStahldichte(7.85);
 
 		// Gebäude
-		Building Gebaeude = new Building("Haus", "Sophie", "Bachmann", 
+		Building Gebaeude = new Building("Haus", "Sophie", "Bachmann",
 				"Unistraße", 353 , "66915", "Kassel");
 		Geschoss EG = new Geschoss("EG", 2.72, false);
 
@@ -50,11 +42,14 @@ public class GebaeudeplanerGUI {
 		Einzelfundament E1 = new Einzelfundament(0.44, 0.6, 7.85, "C20/25", 0.01);
 		Einzelfundament E2 = new Einzelfundament(0.44, 0.6, 7.85, "C20/25", 0.01);
 		Einzelfundament E3 = new Einzelfundament(0.44, 0.6, 7.85, "C20/25", 0.01);
-
 		//Stützen
 		Rundstuetze R1 = new Rundstuetze(0.25, EG, 7.85, "C25/30", 0.05);
 		Rundstuetze R2 = new Rundstuetze(0.25, EG, 7.85, "C25/30", 0.05);
 		Rundstuetze R3 = new Rundstuetze(0.25, EG, 7.85, "C25/30", 0.05);
+		// Das wird benötigt, damit die Rundstützen bei der Volumenberechnung wissen, wie hoch sie sind (glkeiche Höhe wie Geschoss)
+		R1.setGeschoss(EG);
+		R2.setGeschoss(EG);
+		R3.setGeschoss(EG);
 
 		// Wände
 		Mauerwerkswand AWnord = new Mauerwerkswand(0.4, 8.09);
@@ -124,9 +119,19 @@ public class GebaeudeplanerGUI {
 		System.out.println("Anzahl Öffnungen: " + getAllOpenings(Gebaeude).size());
 		System.out.println("Anzahl Türen: " + getAllDoors(getAllOpenings(Gebaeude)));
 		System.out.println("Anzahl Fenster: " + getAllWindows(getAllOpenings(Gebaeude)));
-		
+		ArrayList<String> festi;
+		festi =  getAlleFestigkeitsklassen(Gebaeude);
+		System.out.println("Verwendete Festigkeitsklassen: ");
+		for (int i = 0; i <  festi.size(); i++) {
+			System.out.println(festi.get(i) + " ");
+		}
+		System.out.println("Verwendetes Betonvolumen pro Festigkeitsklasse: ");
+		for (int i = 0; i <  festi.size(); i++) {
+			System.out.println(festi.get(i) + ": " + computeVolume(Gebaeude, festi.get(i)));
+		}
 		// Test ende */
-		// alle fundamente und geschosse durchgehen
+
+
 	}
 	private static ArrayList<Opening> getAllOpenings(Building meinGebaeude) {
 		ArrayList<Geschoss> Etagen = new ArrayList<Geschoss>();
@@ -156,7 +161,7 @@ public class GebaeudeplanerGUI {
 				anzahlTueren++;
 			}
 		}
-		return anzahlTueren;	
+		return anzahlTueren;
 	}
 	private static int getAllWindows(ArrayList<Opening> alleOeffnungen) {
 		int anzahlFenster = 0;
@@ -166,18 +171,101 @@ public class GebaeudeplanerGUI {
 				anzahlFenster++;
 			}
 		}
-		return anzahlFenster;	
+		return anzahlFenster;
 	}
+
+	private static ArrayList<String> getAlleFestigkeitsklassen(Building meinGebaeude) {
+		// Erstellt eine Arraylist mit allen im Gebäude verwendeten Festigkeitsklassen
+		ArrayList<String> festigkeitsklassen = new ArrayList<String>();
+		ArrayList<Fundament> Fundi = new ArrayList<Fundament>();
+		ArrayList<Geschoss> Geschossi = new ArrayList<Geschoss>();
+		Fundi = meinGebaeude.getFundamente();
+		Geschossi = meinGebaeude.getGeschosse();
+		// Zunächst über alle Fundamente iterieren und schauen, was dort für Betonfestigkeitsklassen verwendet wurden
+		for (int i = 0; i < Fundi.size(); i++) {
+			// Sind schon Festigkelitsklassenbeschreibungen in der Liste, wenn nein, dann einfach hinzufügen
+			if (festigkeitsklassen.isEmpty()) {
+				festigkeitsklassen.add(Fundi.get(i).getFestigkeitsklasse());
+			}
+			// wenn ja, dann schauen ob die aktuelle schon enthalten ist, wenn nicht, dann hinzufügen
+			else {
+				for (String string : festigkeitsklassen) {
+					if (!festigkeitsklassen.contains(Fundi.get(i).getFestigkeitsklasse())) {
+						festigkeitsklassen.add(Fundi.get(i).getFestigkeitsklasse());
+						break;  // need to break because arraylist changed in size
+					}
+				}
+			}
+		}
+		// Dann über alle Geschosse iterieren und schauen, was dort für Betonfestigkeitsklassen verwendet wurden (Slab und Rundstützen)
+		for (int i = 0; i < Geschossi.size(); i++) {
+			// Sind schon Festigkelitsklassenbeschreibungen in der Liste, wenn nein, dann einfach hinzufügen
+			if (festigkeitsklassen.isEmpty()) {
+				// Hier nehme ich an, dass jedes Geschoss einen SLAB hat, bei Rundstützen kann das m.m.n nicht immer der Fall sein
+				festigkeitsklassen.add(Geschossi.get(i).getSlab().getFestigkeitsklasse());
+			}
+			else {
+				// Bei allen Rundtüthzen nachschauen
+				for (int k = 0; k < Geschossi.get(i).getRundstuetzen().size(); k++) {
+					for (String string : festigkeitsklassen) {
+						if (!festigkeitsklassen.contains(Geschossi.get(i).getRundstuetzen().get(k).getFestigkeitsklasse())) {
+							festigkeitsklassen.add(Geschossi.get(i).getRundstuetzen().get(k).getFestigkeitsklasse());
+							break;
+						}
+					}
+				}
+				// und dann bei der Slab, falls noch nicht geschehen
+				for (String string : festigkeitsklassen) {
+					if (!festigkeitsklassen.contains(Geschossi.get(i).getSlab().getFestigkeitsklasse())) {
+						festigkeitsklassen.add(Geschossi.get(i).getSlab().getFestigkeitsklasse());
+						break;
+					}
+				}
+			}
+		}
+		return festigkeitsklassen;
+	}
+
+	private static double computeVolume(Building meinGebaeude, String Betonfestigkeitsklasse) {
+		// Berechne die Volumina der entsprechenden verwendeten Festigkeitsklassen
+		ArrayList<Fundament> Fundi = new ArrayList<Fundament>();
+		ArrayList<Geschoss> Geschossi = new ArrayList<Geschoss>();
+		Fundi = meinGebaeude.getFundamente();
+		Geschossi = meinGebaeude.getGeschosse();
+		double Volumen = 0;
+
+		// In allen Fundamenten nachschauen, wie viel Volumen an dem bestimmten Beton verwendet wurde
+		for (int i = 0; i < Fundi.size(); i++) {
+			if (Fundi.get(i).getFestigkeitsklasse().equals(Betonfestigkeitsklasse)) {
+				Volumen += Fundi.get(i).getVolumen();
+			}
+		}
+
+		// In allen Geschossen nachschauen, wie viel Volumen an dem bestimmten Beton verwendet wurde
+		for (int i = 0; i < Geschossi.size(); i++) {
+			if (Geschossi.get(i).getSlab().getFestigkeitsklasse().equals(Betonfestigkeitsklasse)) {
+				Volumen += Geschossi.get(i).getSlab().getVolumen();
+			}
+			for (int k = 0; k < Geschossi.get(i).getRundstuetzen().size(); k++) {
+				if (Geschossi.get(i).getRundstuetzen().get(k).getFestigkeitsklasse().equals(Betonfestigkeitsklasse)) {
+					Volumen += Geschossi.get(i).getRundstuetzen().get(k).getVolumen();
+				}
+			}
+		}
+
+		return Volumen;
+	}
+
 
 }
 
 //alles nachher in gebäudeplaner gui speichern!! bauteile und räumliche objekte importieren in gui
 //if anweisung wenn die checkbox aktivert ist, dann soll das ausgeführt werden
 //nicht drei festigkeitsklassen für drei rundstützen sondern nur für eine
-// Arraylist mit alleen festigkeitsklassen für rundstützen, dekcen fundamente, aber nicht festigkeitsklasse 5 mal 
-//einspeichern sondern gucken ob festigkeitsklasse schon beeinhaltet ist in arraylist, anosnsten nicht 
+// Arraylist mit alleen festigkeitsklassen für rundstützen, dekcen fundamente, aber nicht festigkeitsklasse 5 mal
+//einspeichern sondern gucken ob festigkeitsklasse schon beeinhaltet ist in arraylist, anosnsten nicht
 //hinzufügen wenn sie schon drin ist
-//für wände arraylist mit mauerwerksdicken im gesamten gebäude, mauerwerksdicke in arraylist enhalten? 
+//für wände arraylist mit mauerwerksdicken im gesamten gebäude, mauerwerksdicke in arraylist enhalten?
 //klasse fläche erstellen wo wandfläche ermittelt wird
 // dicke abfragen von mauerwerkswand , länge mauerwerkswand und höhe des geschosses gesmates volumen berechnen, openings abziehen
 //openings haben auch breite und höhe und erhalten so gesamte wandfläche

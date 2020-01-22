@@ -8,7 +8,7 @@ public class Slab extends Stahlbetonbauteil {
 	private double width;
 	private double length;
 	private double height;
-	private ArrayList<Opening> openings = new ArrayList<Opening>();
+	private ArrayList<Opening> openings = new ArrayList<>();
 	
 	// constructor
 	public Slab (double width, double length, double height, double stahldichte, String festigkeitsklasse, double bewehrungsgrad) {
@@ -46,5 +46,15 @@ public class Slab extends Stahlbetonbauteil {
 
 	public void setHeight(double height) {
 		this.height = height;
+	}
+
+	@Override
+	public double getVolumen() {
+		return this.width*this.length*this.height;
+	}
+
+	@Override
+	public String getFestigkeitsklasse() {
+		return this.festigkeitsklasse;
 	}
 }

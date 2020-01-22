@@ -19,4 +19,14 @@ public class Einzelfundament extends Fundament {
 	public void setBreite(double breite) {
 		this.breite = breite;
 	}
+
+	@Override
+	public double getVolumen() {
+		return Math.pow(this.breite,2)*this.tiefe;
+	}
+
+	@Override
+	public String getFestigkeitsklasse() {
+		return this.festigkeitsklasse;
+	}
 }

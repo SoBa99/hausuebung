@@ -28,4 +28,13 @@ public class Bodenplatte extends Fundament {
 	public void setLaenge(double laenge) {
 		this.laenge = laenge;
 	}
+
+	@Override
+	public double getVolumen() {
+		return this.tiefe * this.breite * this.laenge;
+	}
+	@Override
+	public String getFestigkeitsklasse() {
+		return this.festigkeitsklasse;
+	}
 }
