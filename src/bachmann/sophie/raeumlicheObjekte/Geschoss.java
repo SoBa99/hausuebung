@@ -17,9 +17,9 @@ public class Geschoss {
 	
 	// constructor
 	public Geschoss(String bezeichnung, double hoehe, boolean dachgeschoss) {
-		this.bezeichnung = bezeichnung;
-		this.hoehe = hoehe;
-		this.dachgeschoss = dachgeschoss;
+		this.setBezeichnung(bezeichnung);
+		this.setHoehe(hoehe);
+		this.setDachgeschoss(dachgeschoss);
 	}
 
 	//assoziation
@@ -42,6 +42,30 @@ public class Geschoss {
 	}
 	public void setSlab(Slab slab) {
 		this.slab = slab;
+	}
+
+	public String getBezeichnung() {
+		return bezeichnung;
+	}
+
+	public void setBezeichnung(String bezeichnung) {
+		this.bezeichnung = bezeichnung;
+	}
+
+	public double getHoehe() {
+		return hoehe;
+	}
+
+	public void setHoehe(double hoehe) {
+		this.hoehe = hoehe;
+	}
+
+	public boolean isDachgeschoss() {
+		return dachgeschoss;
+	}
+
+	public void setDachgeschoss(boolean dachgeschoss) {
+		this.dachgeschoss = dachgeschoss;
 	}
 }
 	

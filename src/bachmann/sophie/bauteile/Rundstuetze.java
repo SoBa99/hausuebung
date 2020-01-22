@@ -8,10 +8,9 @@ public class Rundstuetze extends Stahlbetonbauteil {
 	private Geschoss geschoss;
 
 	// constructor
-	public Rundstuetze(String festigkeitsklasse, double bewehrungsgrad, double durchmesser) {
-		this.festigkeitsklasse = festigkeitsklasse;
-		this.bewehrungsgrad = bewehrungsgrad;
-		this.durchmesser = durchmesser;
+	public Rundstuetze(double durchmesser, Geschoss geschoss, double stahldichte, String festigkeitsklasse, double bewehrungsgrad) {
+		super(stahldichte, festigkeitsklasse, bewehrungsgrad);
+		this.setDurchmesser(durchmesser);
 	}
 
 	// jede stütze nur ein geschoss, deswegen keine arraylist notwendig
@@ -20,5 +19,13 @@ public class Rundstuetze extends Stahlbetonbauteil {
 	}
 	public void setGeschoss(Geschoss geschoss) {
 		this.geschoss = geschoss;
+	}
+
+	public double getDurchmesser() {
+		return durchmesser;
+	}
+
+	public void setDurchmesser(double durchmesser) {
+		this.durchmesser = durchmesser;
 	}
 }

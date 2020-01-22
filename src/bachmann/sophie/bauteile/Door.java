@@ -8,6 +8,14 @@ public class Door extends Opening {
 	// constructor
 	public Door(double width, double height, String description) {
 		super(width, height);
+		this.setDescription(description);
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
 		this.description = description;
 	}
 
