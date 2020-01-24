@@ -22,7 +22,7 @@ public class Einzelfundament extends Fundament {
 
 	@Override
 	public double getVolumen() {
-		return Math.pow(this.breite,2)*this.tiefe;
+		return Math.pow(this.tiefe,2)*this.breite;
 	}
 
 	@Override
