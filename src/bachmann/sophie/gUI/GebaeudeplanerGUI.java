@@ -20,9 +20,9 @@ public class GebaeudeplanerGUI {
 
 	// constructor
 	public GebaeudeplanerGUI(JFrame frmGebaeudeplaner,
-	JCheckBox chckbxFensterUndTuermenge,
-	JCheckBox chckbxBetonUndBewehrungsmenge,
-	JCheckBox chckbxSeitlicheWandflaeche) {
+							 JCheckBox chckbxFensterUndTuermenge,
+							 JCheckBox chckbxBetonUndBewehrungsmenge,
+							 JCheckBox chckbxSeitlicheWandflaeche) {
 		this.frmGebaeudeplaner = frmGebaeudeplaner;
 		this.chckbxFensterUndTuermenge = chckbxFensterUndTuermenge;
 		this.chckbxBetonUndBewehrungsmenge = chckbxBetonUndBewehrungsmenge;
@@ -131,18 +131,18 @@ public class GebaeudeplanerGUI {
 		}
 		System.out.println("Bewehrungsmenge in Tonnen: " + Stahlbetonbauteil.Bewehrungsmenge(Gebaeude));
 		ArrayList<Double> dicki;
-		dicki = Mauerwerkswand.getAlleMauerwerkswanddicken(Gebaeude);
+		dicki = getAlleMauerwerkswanddicken(Gebaeude);
 		System.out.println("Mauerwerkswandddicken im Gebäude: ");
 		for (int i = 0; i < dicki.size(); i++) {
 			System.out.println(dicki.get(i));
-		}	
+		}
 		System.out.println("Mauerwerkswandfläche pro Mauerwerkswanddicke: ");
 		for (int i = 0; i < dicki.size(); i++) {
-			System.out.println(dicki.get(i) + ": " + Mauerwerkswand.mauerwerkswandFlächen(Gebaeude, dicki.get(i)));
+			System.out.println(dicki.get(i) + ": " + mauerwerkswandFlächen(Gebaeude, dicki.get(i)));
 		}
 	}
-		// Test ende */
-	
+	// Test ende */
+
 	private static ArrayList<Opening> getAllOpenings(Building Gebaeude) {
 		ArrayList<Geschoss> Etagen = new ArrayList<Geschoss>();
 		ArrayList<Mauerwerkswand> Waende = new ArrayList<Mauerwerkswand>();
@@ -264,9 +264,47 @@ public class GebaeudeplanerGUI {
 		}
 
 		return Volumen;
-		}
 	}
-	
+
+
+	//Mauerwerkswanddicken
+	public static ArrayList<Double> getAlleMauerwerkswanddicken(Building Gebaeude) {
+		ArrayList<Geschoss> geschosse = new ArrayList<Geschoss>();
+		ArrayList<Double> dicken = new ArrayList<Double>();
+		geschosse = Gebaeude.getGeschosse();
+		for (int i = 0; i < geschosse.size(); i++) {
+			if(dicken.isEmpty()) {
+				dicken.add(geschosse.get(i).getMauerwerkswaende().get(i).getDicke());
+			}
+			for (int k = 0; k < geschosse.get(i).getMauerwerkswaende().size(); k++) {
+				for(double d: dicken) {
+					if(!dicken.contains(geschosse.get(i).getMauerwerkswaende().get(k).getDicke())) {
+						dicken.add(geschosse.get(i).getMauerwerkswaende().get(k).getDicke());
+						break;
+					}
+				}
+			}
+		}
+		return dicken;
+	}
+
+
+	//Mauerwerkswandflächen
+	public static double mauerwerkswandFlächen(Building Gebaeude, Double dicke) {
+		ArrayList<Geschoss> geschosse = new ArrayList<Geschoss>();
+		geschosse = Gebaeude.getGeschosse();
+		double flaeche = 0;
+
+		for (int i = 0; i < geschosse.size(); i++) {
+			for (int k = 0; k <geschosse.get(i).getMauerwerkswaende().size(); k++) {
+				if(geschosse.get(i).getMauerwerkswaende().get(k).getDicke().equals(dicke)) {
+					flaeche+= (geschosse.get(i).getMauerwerkswaende().get(k).getFlaeche());
+				}
+			}
+		}
+		return flaeche;
+	}
+}
 
 
 //alles nachher in gebäudeplaner gui speichern!! bauteile und räumliche objekte importieren in gui

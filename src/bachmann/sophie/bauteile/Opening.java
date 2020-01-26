@@ -12,4 +12,8 @@ public class Opening {
 		this.height = height;
 	}
 
+	public double getFlaeche() {
+		return 0;
+	}
+
 }
