@@ -33,8 +33,17 @@ public class Bodenplatte extends Fundament {
 	public double getVolumen() {
 		return this.tiefe * this.breite * this.laenge;
 	}
+	
 	@Override
 	public String getFestigkeitsklasse() {
 		return this.festigkeitsklasse;
+	}
+	@Override
+	public double getBewehrungsgrad() {
+		return this.bewehrungsgrad;
+	}
+	@Override
+	public double getBewehrungsmenge_in_t() {
+		return getVolumen() * bewehrungsgrad;
 	}
 }

@@ -52,16 +52,16 @@ public class GebaeudeplanerGUI {
 		R3.setGeschoss(EG);
 
 		// Wände
-		Mauerwerkswand AWnord = new Mauerwerkswand(0.4, 8.09);
-		Mauerwerkswand AWost = new Mauerwerkswand(0.4, 8.72);
-		Mauerwerkswand AWsued = new Mauerwerkswand(0.4, 8.09);
-		Mauerwerkswand AWwest = new Mauerwerkswand(0.4, 8.72);
-		Mauerwerkswand IW34 = new Mauerwerkswand(0.24, 4.36);  // Wand zwischen Schlafen und Wohnen
-		Mauerwerkswand IW45 = new Mauerwerkswand(0.24, 2.56);  // Wand zwischen Schlafen und Bad
-		Mauerwerkswand IW234 = new Mauerwerkswand(0.24, 2.78 );  // Wand zwischen Schlafen, Küche und Wohnen
-		Mauerwerkswand IW25 = new Mauerwerkswand(0.24, 2.93);  // Wand zwischen Bad und Küche
-		Mauerwerkswand IW12 = new Mauerwerkswand(0.24, 2.93);  // Wand zwischen Küche und Flur
-		Mauerwerkswand IW13 = new Mauerwerkswand(0.24, 2.9);  // Wand zwischen Wohnen und Flur
+		Mauerwerkswand AWnord = new Mauerwerkswand(0.4, 8.09, EG, 2.72);
+		Mauerwerkswand AWost = new Mauerwerkswand(0.4, 8.72, EG, 2.72);
+		Mauerwerkswand AWsued = new Mauerwerkswand(0.4, 8.09, EG, 2.72);
+		Mauerwerkswand AWwest = new Mauerwerkswand(0.4, 8.72, EG, 2.72);
+		Mauerwerkswand IW34 = new Mauerwerkswand(0.24, 4.36, EG, 2.72);  // Wand zwischen Schlafen und Wohnen
+		Mauerwerkswand IW45 = new Mauerwerkswand(0.24, 2.56, EG, 2.72);  // Wand zwischen Schlafen und Bad
+		Mauerwerkswand IW234 = new Mauerwerkswand(0.24, 2.78, EG, 2.72);  // Wand zwischen Schlafen, Küche und Wohnen
+		Mauerwerkswand IW25 = new Mauerwerkswand(0.24, 2.93, EG, 2.72);  // Wand zwischen Bad und Küche
+		Mauerwerkswand IW12 = new Mauerwerkswand(0.24, 2.93, EG, 2.72);  // Wand zwischen Küche und Flur
+		Mauerwerkswand IW13 = new Mauerwerkswand(0.24, 2.9, EG, 2.72);  // Wand zwischen Wohnen und Flur
 
 		// Decke
 		Slab Decke = new Slab(12.49, 9.52, 0.18, 7.85, "C20/25", 0.03);
@@ -129,18 +129,28 @@ public class GebaeudeplanerGUI {
 		for (int i = 0; i <  festi.size(); i++) {
 			System.out.println(festi.get(i) + ": " + computeVolume(Gebaeude, festi.get(i)));
 		}
-		// Test ende */
-
-
+		System.out.println("Bewehrungsmenge in Tonnen: " + Stahlbetonbauteil.Bewehrungsmenge(Gebaeude));
+		ArrayList<Double> dicki;
+		dicki = Mauerwerkswand.getAlleMauerwerkswanddicken(Gebaeude);
+		System.out.println("Mauerwerkswandddicken im Gebäude: ");
+		for (int i = 0; i < dicki.size(); i++) {
+			System.out.println(dicki.get(i));
+		}	
+		System.out.println("Mauerwerkswandfläche pro Mauerwerkswanddicke: ");
+		for (int i = 0; i < dicki.size(); i++) {
+			System.out.println(dicki.get(i) + ": " + Mauerwerkswand.mauerwerkswandFlächen(Gebaeude, dicki.get(i)));
+		}
 	}
-	private static ArrayList<Opening> getAllOpenings(Building meinGebaeude) {
+		// Test ende */
+	
+	private static ArrayList<Opening> getAllOpenings(Building Gebaeude) {
 		ArrayList<Geschoss> Etagen = new ArrayList<Geschoss>();
 		ArrayList<Mauerwerkswand> Waende = new ArrayList<Mauerwerkswand>();
 		ArrayList<Opening> EtagenOeffnungen = new ArrayList<Opening>();  // Öffnungen je nach Etage
 		ArrayList<Opening> GebaeudeOeffnungen = new ArrayList<Opening>(); // ArrayList aller Öffnungen des gesamten Gebäudes
 		int anzahlEtagen;
 		int anzahlWaende;
-		Etagen = meinGebaeude.getGeschosse();
+		Etagen = Gebaeude.getGeschosse();
 		anzahlEtagen = Etagen.size();
 		for (int i = 0; i < anzahlEtagen; i++) {
 			Waende = Etagen.get(i).getMauerwerkswaende();
@@ -174,16 +184,16 @@ public class GebaeudeplanerGUI {
 		return anzahlFenster;
 	}
 
-	private static ArrayList<String> getAlleFestigkeitsklassen(Building meinGebaeude) {
+	private static ArrayList<String> getAlleFestigkeitsklassen(Building Gebaeude) {
 		// Erstellt eine Arraylist mit allen im Gebäude verwendeten Festigkeitsklassen
 		ArrayList<String> festigkeitsklassen = new ArrayList<String>();
 		ArrayList<Fundament> Fundi = new ArrayList<Fundament>();
 		ArrayList<Geschoss> Geschossi = new ArrayList<Geschoss>();
-		Fundi = meinGebaeude.getFundamente();
-		Geschossi = meinGebaeude.getGeschosse();
+		Fundi = Gebaeude.getFundamente();
+		Geschossi = Gebaeude.getGeschosse();
 		// Zunächst über alle Fundamente iterieren und schauen, was dort für Betonfestigkeitsklassen verwendet wurden
 		for (int i = 0; i < Fundi.size(); i++) {
-			// Sind schon Festigkelitsklassenbeschreibungen in der Liste, wenn nein, dann einfach hinzufügen
+			// Sind schon Festigkeitsklassenbeschreibungen in der Liste, wenn nein, dann einfach hinzufügen
 			if (festigkeitsklassen.isEmpty()) {
 				festigkeitsklassen.add(Fundi.get(i).getFestigkeitsklasse());
 			}
@@ -205,7 +215,7 @@ public class GebaeudeplanerGUI {
 				festigkeitsklassen.add(Geschossi.get(i).getSlab().getFestigkeitsklasse());
 			}
 			else {
-				// Bei allen Rundtüthzen nachschauen
+				// Bei allen Rundstützen nachschauen
 				for (int k = 0; k < Geschossi.get(i).getRundstuetzen().size(); k++) {
 					for (String string : festigkeitsklassen) {
 						if (!festigkeitsklassen.contains(Geschossi.get(i).getRundstuetzen().get(k).getFestigkeitsklasse())) {
@@ -254,10 +264,10 @@ public class GebaeudeplanerGUI {
 		}
 
 		return Volumen;
+		}
 	}
+	
 
-
-}
 
 //alles nachher in gebäudeplaner gui speichern!! bauteile und räumliche objekte importieren in gui
 //if anweisung wenn die checkbox aktivert ist, dann soll das ausgeführt werden
