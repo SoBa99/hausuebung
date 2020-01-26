@@ -61,7 +61,10 @@ public class Mauerwerkswand {
 		 */
 		double b_ = 0;
 		for (int i=0; i < this.getOpenings().size(); i++) {
-			
+			double openingFlaeche = this.getOpenings().get(i).getFlaeche();
+			if (openingFlaeche >= 2.5) {
+				b_ += openingFlaeche;
+			}
 		}
 		return b - b_;
 	}
