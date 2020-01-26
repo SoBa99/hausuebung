@@ -47,7 +47,7 @@ public class Slab extends Stahlbetonbauteil {
 	public void setHeight(double height) {
 		this.height = height;
 	}
-
+	// Festigkeitsklasse
 	@Override
 	public double getVolumen() {
 		return this.width*this.length*this.height;
@@ -56,5 +56,14 @@ public class Slab extends Stahlbetonbauteil {
 	@Override
 	public String getFestigkeitsklasse() {
 		return this.festigkeitsklasse;
+	}
+	// Bewehrungsgrad
+	@Override
+	public double getBewehrungsgrad() {
+		return this.bewehrungsgrad;
+	}
+	@Override
+	public double getBewehrungsmenge_in_t() {
+		return getVolumen() * bewehrungsgrad;
 	}
 }

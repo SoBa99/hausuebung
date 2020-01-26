@@ -28,15 +28,23 @@ public class Rundstuetze extends Stahlbetonbauteil {
 	public void setDurchmesser(double durchmesser) {
 		this.durchmesser = durchmesser;
 	}
-
+	// Festigkeitsklasse
 	@Override
 	public double getVolumen() {
-		// TODO: Woher kommt die Höhe der Rundstütze??? Hängt von der Geschosshöhe ab.. Aber woher weiß die Rundstütze zu welchem Geschoss sie gehört?
 		return Math.PI*Math.pow(this.durchmesser/2,2)*this.geschoss.getHoehe();
 	}
 
 	@Override
 	public String getFestigkeitsklasse() {
 		return this.festigkeitsklasse;
+	}
+	// Bewehrungsgrad
+	@Override
+	public double getBewehrungsgrad() {
+		return this.bewehrungsgrad;
+	}
+	@Override
+	public double getBewehrungsmenge_in_t() {
+		return getVolumen() * bewehrungsgrad;
 	}
 }

@@ -27,28 +27,28 @@ public abstract class Stahlbetonbauteil implements Volumen {
 	}
 
 	public abstract String getFestigkeitsklasse();
-
-	// Volumenberechnung Anfang
-//	public double berechneStahlbetonVolumen(Building Gebaeude) {
-//		double F1 = 0;
-//		double F2 = 0;
-//		ArrayList<Fundament> Fundi = new ArrayList<Fundament>();
-//		ArrayList<Geschoss> Geschossi = new ArrayList<Geschoss>();
-//
-//		Fundi = Gebaeude.getFundamente();
-//		Geschossi = Gebaeude.getGeschosse();
-//		for (int i = 0; i < Fundi.size(); i++) {
-//			if (Fundi.get(i).getFestigkeitsklasse().equals("C20/25")) {
-//				Bodenplatte B = (Bodenplatte)(Fundi.get(i));
-//				F1 += B.bodenplatteVolumen(B.getTiefe(), B.getBreite(), B.getLaenge());
-//			} else if (Fundi.get(i).getFestigkeitsklasse().equals("C25/30")) {
-//			}
-//		}
-//		for (int k = 0; k < Geschossi.size(); k++) {
-//			if (Geschossi.get(k).getSlab().getFestigkeitsklasse().equals("C25/30")) {
-//				F2 += Geschossi.get(k).zylinderVolumen(Geschossi.get(k).getMathPI, radius);
-//			}
-//		}
-//		return 0;
-//	}
+	
+	public abstract double getBewehrungsgrad();
+	public abstract double getBewehrungsmenge_in_t();
+	
+	//Bewehrungsmenge
+	public static double Bewehrungsmenge(Building gebaeude) {
+		ArrayList<Fundament> fundamente = new ArrayList<Fundament>();
+		ArrayList<Geschoss> geschosse = new ArrayList<Geschoss>();
+		fundamente = gebaeude.getFundamente();
+		geschosse = gebaeude.getGeschosse();
+		double bewehrung = 0;
+	for (int i = 0; i < fundamente.size(); i++) {
+		bewehrung+= (fundamente.get(i).getVolumen()) * 0.01 * stahldichte;
+		}
+	for (int j = 0; j < geschosse.size(); j++) { 
+		{
+		bewehrung+= (geschosse.get(j).getSlab().getVolumen()) * 0.03 * stahldichte;
+		}
+	for (int k = 0; k < geschosse.size(); k++) {
+		bewehrung+= (geschosse.get(k).getRundstuetzen().get(k).getVolumen()) * 0.05 * stahldichte;
+		}
+	}
+	return bewehrung;	
+	}
 }
