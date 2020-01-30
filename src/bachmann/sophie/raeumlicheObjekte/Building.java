@@ -15,7 +15,7 @@ public class Building {
 	private String ort;
 	private ArrayList<Geschoss> geschosse = new ArrayList<Geschoss>();
 	private ArrayList<Fundament> fundamente = new ArrayList<Fundament>();
-	
+
 	// constructor
 	public Building(String bezeichnung, String bauherr_Vorname, String bauherr_Nachname, 
 			String strasse, int hausnummer, String plz, String ort) {

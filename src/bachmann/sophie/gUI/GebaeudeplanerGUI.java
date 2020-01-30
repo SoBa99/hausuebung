@@ -1,36 +1,110 @@
 package bachmann.sophie.gUI;
 
-import javax.swing.JFrame;
+import java.awt.EventQueue;
 
+import javax.swing.JFrame;
+import java.util.ArrayList;
+import javax.swing.JCheckBox;
 import bachmann.sophie.bauteile.*;
 import bachmann.sophie.raeumlicheObjekte.Building;
 import bachmann.sophie.raeumlicheObjekte.Geschoss;
-
-import java.util.ArrayList;
-
-import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import java.awt.Font;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class GebaeudeplanerGUI {
 
-	// private variables
-	private JFrame frmGebaeudeplaner;
-	private JCheckBox chckbxFensterUndTuermenge;
-	private JCheckBox chckbxBetonUndBewehrungsmenge;
-	private JCheckBox chckbxSeitlicheWandflaeche;
+	private JFrame frmGebäudeplaner;
 
-	// constructor
-	public GebaeudeplanerGUI(JFrame frmGebaeudeplaner,
-	JCheckBox chckbxFensterUndTuermenge,
-	JCheckBox chckbxBetonUndBewehrungsmenge,
-	JCheckBox chckbxSeitlicheWandflaeche) {
-		this.frmGebaeudeplaner = frmGebaeudeplaner;
-		this.chckbxFensterUndTuermenge = chckbxFensterUndTuermenge;
-		this.chckbxBetonUndBewehrungsmenge = chckbxBetonUndBewehrungsmenge;
-		this.chckbxSeitlicheWandflaeche = chckbxSeitlicheWandflaeche;
-	}
+	/**
+	 * Launch the application.
+	 */
 	public static void main(String[] args) {
-		/*-------Instanziierung-------*/
-		Stahlbetonbauteil.setStahldichte(7.85);
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					GebaeudeplanerGUI window = new GebaeudeplanerGUI();
+					window.frmGebäudeplaner.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 * @throws IOException 
+	 */
+	public GebaeudeplanerGUI() throws IOException {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 * @throws IOException 
+	 */
+	private void initialize() throws IOException {
+		frmGebäudeplaner = new JFrame();
+		frmGebäudeplaner.setTitle("Gebäudeplaner");
+		frmGebäudeplaner.setBounds(100, 100, 327, 266);
+		frmGebäudeplaner.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmGebäudeplaner.getContentPane().setLayout(null);
+
+		JLabel lblGebudeplaner = new JLabel("Gebäudeplaner");
+		lblGebudeplaner.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblGebudeplaner.setBounds(97, 20, 152, 16);
+		frmGebäudeplaner.getContentPane().add(lblGebudeplaner);
+
+		JLabel lblNewLabel = new JLabel("Ausgabeumfang");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblNewLabel.setBounds(16, 59, 108, 16);
+		frmGebäudeplaner.getContentPane().add(lblNewLabel);
+
+		JCheckBox chckbxSeitlicheWandflche = new JCheckBox("Seitliche Wandfläche");
+		chckbxSeitlicheWandflche.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		chckbxSeitlicheWandflche.setBounds(6, 87, 170, 23);
+		frmGebäudeplaner.getContentPane().add(chckbxSeitlicheWandflche);
+
+		JCheckBox chckbxBetonUndBewehrungsmenge_1 = new JCheckBox("Beton- und Bewehrungsmenge");
+		chckbxBetonUndBewehrungsmenge_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		chckbxBetonUndBewehrungsmenge_1.setBounds(6, 122, 224, 23);
+		frmGebäudeplaner.getContentPane().add(chckbxBetonUndBewehrungsmenge_1);
+
+		JCheckBox chckbxFensterUndTranzahl = new JCheckBox("Fenster- und Türanzahl");
+		chckbxFensterUndTranzahl.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		chckbxFensterUndTranzahl.setBounds(6, 157, 189, 23);
+		frmGebäudeplaner.getContentPane().add(chckbxFensterUndTranzahl);
+
+		JButton btnBeenden = new JButton("Beenden");
+		btnBeenden.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnBeenden.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		btnBeenden.setBounds(204, 209, 117, 29);
+		frmGebäudeplaner.getContentPane().add(btnBeenden);
+
+		JButton btnBerichtErstellen = new JButton("Bericht erstellen");
+		btnBerichtErstellen.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnBerichtErstellen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+		
+			}
+		});
+		btnBerichtErstellen.setBounds(61, 209, 153, 29);
+		frmGebäudeplaner.getContentPane().add(btnBerichtErstellen);
+		
+		Writer fileWriter = new FileWriter("data\\file.writer.txt");
+		BufferedWriter buffer = new BufferedWriter(fileWriter);
+
 
 		// Gebäude
 		Building Gebaeude = new Building("Haus", "Sophie", "Bachmann",
@@ -115,19 +189,53 @@ public class GebaeudeplanerGUI {
 		EG.addMauerwerkswand(IW13);
 		EG.setSlab(Decke);
 
+		/*-------Instanziierung-------*/
+		Stahlbetonbauteil.setStahldichte(7.85);
+		  {
+		
+		}
+	    //Mauerwerkswanddicken und -flächen
+		if(chckbxSeitlicheWandflche.isSelected()) {
+			fileWriter.write("vorhandene Mauerwerkswanddicken: " );
+			ArrayList<Double> dicki;
+			dicki = Mauerwerkswand.getAlleMauerwerkswanddicken(Gebaeude);
+			for (int i = 0; i < dicki.size(); i++) { fileWriter.write(String.valueOf(dicki.get(i)));
+			fileWriter.write("Wandfläche " + String.valueOf(dicki.get(i)) + "er Mauerwerk: ");
+			for (int k = 0; k < dicki.size(); k++) {
+				fileWriter.write((dicki.get(k) + ": " + Mauerwerkswand.mauerwerkswandFlächen(Gebaeude, dicki.get(k))));
+			}}
+			}
+		//Text Festigkeitsklassen und Bewehrungsmenge
+		if(chckbxBetonUndBewehrungsmenge_1.isSelected()) {
+			fileWriter.write("vorhandene Betonfestigkeitsklassen: " );
+			ArrayList<String> festi;
+			festi = Stahlbetonbauteil.getAlleFestigkeitsklassen(Gebaeude);
+			for ( int i = 0; i < festi.size(); i++) { fileWriter.write(String.valueOf(festi.get(i)));
+			fileWriter.write("Betonmenge: " + String.valueOf(festi.get(i)) + " ");
+			for ( int k = 0; k < festi.size(); k++) {
+				fileWriter.write((festi.get(k) + ": " + Stahlbetonbauteil.computeVolume(Gebaeude, festi.get(i))));
+			}
+			}
+		}
+		//Text Türen und Fenster
+		if(chckbxFensterUndTranzahl.isSelected()) {
+			fileWriter.write("Türen: " + getAllDoors(getAllOpenings(Gebaeude)));
+			fileWriter.write("Fenster: " + getAllWindows(getAllOpenings(Gebaeude)));
+		}
+
 		// Test nachher wieder rauslösschen
 		System.out.println("Anzahl Öffnungen: " + getAllOpenings(Gebaeude).size());
 		System.out.println("Anzahl Türen: " + getAllDoors(getAllOpenings(Gebaeude)));
 		System.out.println("Anzahl Fenster: " + getAllWindows(getAllOpenings(Gebaeude)));
 		ArrayList<String> festi;
-		festi =  getAlleFestigkeitsklassen(Gebaeude);
+		festi = Stahlbetonbauteil.getAlleFestigkeitsklassen(Gebaeude);
 		System.out.println("Verwendete Festigkeitsklassen: ");
 		for (int i = 0; i <  festi.size(); i++) {
 			System.out.println(festi.get(i) + " ");
 		}
 		System.out.println("Verwendetes Betonvolumen pro Festigkeitsklasse: ");
 		for (int i = 0; i <  festi.size(); i++) {
-			System.out.println(festi.get(i) + ": " + computeVolume(Gebaeude, festi.get(i)));
+			System.out.println(festi.get(i) + ": " + Stahlbetonbauteil.computeVolume(Gebaeude, festi.get(i)));
 		}
 		System.out.println("Bewehrungsmenge in Tonnen: " + Stahlbetonbauteil.Bewehrungsmenge(Gebaeude));
 		ArrayList<Double> dicki;
@@ -139,10 +247,11 @@ public class GebaeudeplanerGUI {
 		System.out.println("Mauerwerkswandfläche pro Mauerwerkswanddicke: ");
 		for (int i = 0; i < dicki.size(); i++) {
 			System.out.println(dicki.get(i) + ": " + Mauerwerkswand.mauerwerkswandFlächen(Gebaeude, dicki.get(i)));
-		}
-	}
-		// Test ende */
-	
+		}}
+
+
+	// Test ende */
+
 	private static ArrayList<Opening> getAllOpenings(Building Gebaeude) {
 		ArrayList<Geschoss> Etagen = new ArrayList<Geschoss>();
 		ArrayList<Mauerwerkswand> Waende = new ArrayList<Mauerwerkswand>();
@@ -184,107 +293,28 @@ public class GebaeudeplanerGUI {
 		return anzahlFenster;
 	}
 
-	private static ArrayList<String> getAlleFestigkeitsklassen(Building Gebaeude) {
-		// Erstellt eine Arraylist mit allen im Gebäude verwendeten Festigkeitsklassen
-		ArrayList<String> festigkeitsklassen = new ArrayList<String>();
-		ArrayList<Fundament> Fundi = new ArrayList<Fundament>();
-		ArrayList<Geschoss> Geschossi = new ArrayList<Geschoss>();
-		Fundi = Gebaeude.getFundamente();
-		Geschossi = Gebaeude.getGeschosse();
-		// Zunächst über alle Fundamente iterieren und schauen, was dort für Betonfestigkeitsklassen verwendet wurden
-		for (int i = 0; i < Fundi.size(); i++) {
-			// Sind schon Festigkeitsklassenbeschreibungen in der Liste, wenn nein, dann einfach hinzufügen
-			if (festigkeitsklassen.isEmpty()) {
-				festigkeitsklassen.add(Fundi.get(i).getFestigkeitsklasse());
-			}
-			// wenn ja, dann schauen ob die aktuelle schon enthalten ist, wenn nicht, dann hinzufügen
-			else {
-				for (String string : festigkeitsklassen) {
-					if (!festigkeitsklassen.contains(Fundi.get(i).getFestigkeitsklasse())) {
-						festigkeitsklassen.add(Fundi.get(i).getFestigkeitsklasse());
-						break;  // need to break because arraylist changed in size
-					}
-				}
-			}
-		}
-		// Dann über alle Geschosse iterieren und schauen, was dort für Betonfestigkeitsklassen verwendet wurden (Slab und Rundstützen)
-		for (int i = 0; i < Geschossi.size(); i++) {
-			// Sind schon Festigkelitsklassenbeschreibungen in der Liste, wenn nein, dann einfach hinzufügen
-			if (festigkeitsklassen.isEmpty()) {
-				// Hier nehme ich an, dass jedes Geschoss einen SLAB hat, bei Rundstützen kann das m.m.n nicht immer der Fall sein
-				festigkeitsklassen.add(Geschossi.get(i).getSlab().getFestigkeitsklasse());
-			}
-			else {
-				// Bei allen Rundstützen nachschauen
-				for (int k = 0; k < Geschossi.get(i).getRundstuetzen().size(); k++) {
-					for (String string : festigkeitsklassen) {
-						if (!festigkeitsklassen.contains(Geschossi.get(i).getRundstuetzen().get(k).getFestigkeitsklasse())) {
-							festigkeitsklassen.add(Geschossi.get(i).getRundstuetzen().get(k).getFestigkeitsklasse());
-							break;
-						}
-					}
-				}
-				// und dann bei der Slab, falls noch nicht geschehen
-				for (String string : festigkeitsklassen) {
-					if (!festigkeitsklassen.contains(Geschossi.get(i).getSlab().getFestigkeitsklasse())) {
-						festigkeitsklassen.add(Geschossi.get(i).getSlab().getFestigkeitsklasse());
-						break;
-					}
-				}
-			}
-		}
-		return festigkeitsklassen;
-	}
+	// private variables
+	private JFrame frmGebaeudeplaner;
+	private JCheckBox chckbxFensterUndTuermenge;
+	private JCheckBox chckbxBetonUndBewehrungsmenge;
+	private JCheckBox chckbxSeitlicheWandflaeche;
 
-	private static double computeVolume(Building meinGebaeude, String Betonfestigkeitsklasse) {
-		// Berechne die Volumina der entsprechenden verwendeten Festigkeitsklassen
-		ArrayList<Fundament> Fundi = new ArrayList<Fundament>();
-		ArrayList<Geschoss> Geschossi = new ArrayList<Geschoss>();
-		Fundi = meinGebaeude.getFundamente();
-		Geschossi = meinGebaeude.getGeschosse();
-		double Volumen = 0;
+	// constructor
+	public GebaeudeplanerGUI(JFrame frmGebaeudeplaner,
+			JCheckBox chckbxFensterUndTuermenge,
+			JCheckBox chckbxBetonUndBewehrungsmenge,
+			JCheckBox chckbxSeitlicheWandflaeche) {
+		this.frmGebaeudeplaner = frmGebaeudeplaner;
+		this.chckbxFensterUndTuermenge = chckbxFensterUndTuermenge;
+		this.chckbxBetonUndBewehrungsmenge = chckbxBetonUndBewehrungsmenge;
+		this.chckbxSeitlicheWandflaeche = chckbxSeitlicheWandflaeche;
+	}}
 
-		// In allen Fundamenten nachschauen, wie viel Volumen an dem bestimmten Beton verwendet wurde
-		for (int i = 0; i < Fundi.size(); i++) {
-			if (Fundi.get(i).getFestigkeitsklasse().equals(Betonfestigkeitsklasse)) {
-				Volumen += Fundi.get(i).getVolumen();
-			}
-		}
-
-		// In allen Geschossen nachschauen, wie viel Volumen an dem bestimmten Beton verwendet wurde
-		for (int i = 0; i < Geschossi.size(); i++) {
-			if (Geschossi.get(i).getSlab().getFestigkeitsklasse().equals(Betonfestigkeitsklasse)) {
-				Volumen += Geschossi.get(i).getSlab().getVolumen();
-			}
-			for (int k = 0; k < Geschossi.get(i).getRundstuetzen().size(); k++) {
-				if (Geschossi.get(i).getRundstuetzen().get(k).getFestigkeitsklasse().equals(Betonfestigkeitsklasse)) {
-					Volumen += Geschossi.get(i).getRundstuetzen().get(k).getVolumen();
-				}
-			}
-		}
-
-		return Volumen;
-		}
-	}
-	
 
 
 //alles nachher in gebäudeplaner gui speichern!! bauteile und räumliche objekte importieren in gui
 //if anweisung wenn die checkbox aktivert ist, dann soll das ausgeführt werden
-//nicht drei festigkeitsklassen für drei rundstützen sondern nur für eine
-// Arraylist mit alleen festigkeitsklassen für rundstützen, dekcen fundamente, aber nicht festigkeitsklasse 5 mal
-//einspeichern sondern gucken ob festigkeitsklasse schon beeinhaltet ist in arraylist, anosnsten nicht
-//hinzufügen wenn sie schon drin ist
-//für wände arraylist mit mauerwerksdicken im gesamten gebäude, mauerwerksdicke in arraylist enhalten?
-//klasse fläche erstellen wo wandfläche ermittelt wird
-// dicke abfragen von mauerwerkswand , länge mauerwerkswand und höhe des geschosses gesmates volumen berechnen, openings abziehen
-//openings haben auch breite und höhe und erhalten so gesamte wandfläche
-// selected checkbox?
+//selected checkbox?
 //Filewirter festlegen wie gespecihert und wo
 //Bufferdwriter = allgemeines (name, anschrift geschosse) if checkbox is selected mit for schleife durchzählen
-
-
-
-
-
 

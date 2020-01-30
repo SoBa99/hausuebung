@@ -3,13 +3,13 @@ package bachmann.sophie.bauteile;
 import java.util.ArrayList;
 
 public class Slab extends Stahlbetonbauteil {
-	
+
 	// private variables
 	private double width;
 	private double length;
 	private double height;
 	private ArrayList<Opening> openings = new ArrayList<>();
-	
+
 	// constructor
 	public Slab (double width, double length, double height, double stahldichte, String festigkeitsklasse, double bewehrungsgrad) {
 		super(stahldichte, festigkeitsklasse, bewehrungsgrad);

@@ -1,6 +1,5 @@
 package bachmann.sophie.bauteile;
 
-
 import java.util.ArrayList;
 
 import bachmann.sophie.raeumlicheObjekte.Building;
@@ -18,6 +17,7 @@ public class Mauerwerkswand implements Wandflaeche{
 	public Mauerwerkswand (double dicke, double laenge, Geschoss geschoss, double hoehe) {
 		this.setDicke(dicke);
 		this.setLaenge(laenge);
+		this.setGeschoss(geschoss);
 
 	}
 	// assoziation
@@ -45,12 +45,21 @@ public class Mauerwerkswand implements Wandflaeche{
 	public void setGeschoss(Geschoss geschoss) {
 		this.geschoss = geschoss;
 	}
-	
+
 	@Override
 	public double getFlaeche() {
 		double b = this.laenge * this.geschoss.getHoehe();
-		return b;
+		double a = 0; 
+		for (int i = 0; i < this.getOpenings().size(); i++) {
+			double openingFlaeche = this.getOpenings().get(i).getFlaeche();
+			if (openingFlaeche >= 2.5) {
+				a += openingFlaeche;
+			}
+		}
+		return b - a;
 	}
+
+
 
 	//Mauerwerkswanddicken
 	public static ArrayList<Double> getAlleMauerwerkswanddicken(Building Gebaeude) {
@@ -80,13 +89,13 @@ public class Mauerwerkswand implements Wandflaeche{
 		double flaeche = 0;
 
 		for (int i = 0; i < geschosse.size(); i++) {
-			for (int k = 0; k <geschosse.get(i).getMauerwerkswaende().size(); k++) {
+			for (int k = 0; k < geschosse.get(i).getMauerwerkswaende().size(); k++) {
 				if(geschosse.get(i).getMauerwerkswaende().get(k).getDicke().equals(dicke)) {
-					flaeche+= (geschosse.get(i).getMauerwerkswaende().get(k).getFlaeche()); 
+					flaeche+= geschosse.get(i).getMauerwerkswaende().get(k).getFlaeche(); 
 				}
 			}
 		}
 		return flaeche;
-		}
 	}
+}
 

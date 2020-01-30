@@ -14,7 +14,7 @@ public class Geschoss {
 	private ArrayList<Rundstuetze> rundstuetzen = new ArrayList<Rundstuetze>();
 	private ArrayList<Mauerwerkswand> mauerwerkswaende = new ArrayList<Mauerwerkswand>();
 	private Slab slab;
-	
+
 	// constructor
 	public Geschoss(String bezeichnung, double hoehe, boolean dachgeschoss) {
 		this.setBezeichnung(bezeichnung);
@@ -29,14 +29,14 @@ public class Geschoss {
 	public void addRundstuetze(Rundstuetze rundstuetze) {
 		rundstuetzen.add(rundstuetze);
 	}
-	
+
 	public ArrayList<Mauerwerkswand> getMauerwerkswaende() {
 		return mauerwerkswaende;
 	}
 	public void addMauerwerkswand(Mauerwerkswand mauerwerkswand) {
 		mauerwerkswaende.add(mauerwerkswand);
 	}
-	
+
 	public Slab getSlab() {
 		return slab;
 	}
@@ -68,4 +68,3 @@ public class Geschoss {
 		this.dachgeschoss = dachgeschoss;
 	}
 }
-	

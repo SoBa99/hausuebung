@@ -1,11 +1,11 @@
 package bachmann.sophie.bauteile;
 
 public class Bodenplatte extends Fundament {
-	
+
 	// private variables
 	private double breite;
 	private double laenge; 
-	
+
 	// constructor
 	public Bodenplatte(double breite, double laenge, double tiefe, double stahldichte, String festigkeitsklasse, double bewehrungsgrad) {
 		super(tiefe, stahldichte, festigkeitsklasse, bewehrungsgrad);
@@ -33,7 +33,7 @@ public class Bodenplatte extends Fundament {
 	public double getVolumen() {
 		return this.tiefe * this.breite * this.laenge;
 	}
-	
+
 	@Override
 	public String getFestigkeitsklasse() {
 		return this.festigkeitsklasse;
