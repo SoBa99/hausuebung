@@ -18,4 +18,8 @@ public class Window extends Opening {
 	public void setBruestungshoehe(double bruestungshoehe) {
 		this.bruestungshoehe = bruestungshoehe;
 	}
+
+	public double getFlaeche() {
+		return this.width * (this.height - this.bruestungshoehe);
+	}
 }

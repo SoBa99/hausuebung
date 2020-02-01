@@ -19,4 +19,7 @@ public class Door extends Opening {
 		this.description = description;
 	}
 
+	public double getFlaeche() {
+		return this.width * this.height;
+	}
 }

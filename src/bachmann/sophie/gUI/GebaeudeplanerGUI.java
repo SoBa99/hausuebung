@@ -38,6 +38,7 @@ public class GebaeudeplanerGUI {
 	private JCheckBox chckbxBetonUndBewehrungsmenge;
 	private JCheckBox chckbxSeitlicheWandflaeche;
 
+
 	public JFrame getFrmGebaeudeplaner() {
 		return frmGebaeudeplaner;
 	}
@@ -185,6 +186,7 @@ public class GebaeudeplanerGUI {
 		EG.addMauerwerkswand(IW13);
 		EG.setSlab(Decke);
 
+
 		/*-------Instanziierung-------*/
 		Stahlbetonbauteil.setStahldichte(7.85);
 
@@ -252,7 +254,7 @@ public class GebaeudeplanerGUI {
 					buffer.newLine();
 					buffer.write("                                         : " + Gebaeude.getPlz() + " " + Gebaeude.getOrt());
 					buffer.newLine();
-					buffer.write("Geschosse                                : " + Gebaeude.getGeschosse());
+					buffer.write("Geschosse                                : " + Gebaeude.getGeschosse().size());
 					buffer.newLine();
 
 					if(chckbxSeitlicheWandflche.isSelected() || chckbxBetonUndBewehrungsmenge_1.isSelected() || chckbxFensterUndTranzahl.isSelected()) {
@@ -271,7 +273,11 @@ public class GebaeudeplanerGUI {
 							buffer.write("\n");
 							
 							for (int j = 0; j < dicki.size(); j++) {
-								buffer.write("Wandfläche " + String.valueOf(dicki.get(j)) + "er Mauerwerk               : " + Mauerwerkswand.mauerwerkswandFlächen(Gebaeude, dicki.get(j)) +" m^2" + "\r\n");
+								buffer.write("Wandfläche " + String.valueOf(dicki.get(j)) + "er Mauerwerk              ");
+								if(dicki.get(j) == 0.4) {
+									buffer.write(" ");
+								}
+								buffer.write(": " + ((float)Math.round(Mauerwerkswand.mauerwerkswandFlächen(Gebaeude, dicki.get(j))*10000))/10000 +" m^2" + "\r\n");
 							}}
 
 						//Text Festigkeitsklassen und Bewehrungsmenge
@@ -279,12 +285,13 @@ public class GebaeudeplanerGUI {
 							buffer.write("vorhandene Betonfestigkeitsklassen       : " );
 							ArrayList<String> festi;
 							festi = Stahlbetonbauteil.getAlleFestigkeitsklassen(Gebaeude);
-							for (int i = 0; i < festi.size(); i++) { buffer.write(String.valueOf(festi.get(i)) + ", ");
+							for (int i = 0; i < festi.size(); i++) { buffer.write(String.valueOf(festi.get(i)));
+								if(i+1 != festi.size()) {buffer.write(String.valueOf(", "));}
 							}
 							buffer.write("\n");
 							for (int j = 0; j < festi.size(); j++) {
-								buffer.write("Betonmenge " + String.valueOf(festi.get(j)) + "                        : " + Stahlbetonbauteil.computeVolume(Gebaeude, festi.get(j)) + " m^3" + "\r\n"); }
-							buffer.write("Bewehrungsmenge                          : " + Stahlbetonbauteil.Bewehrungsmenge(Gebaeude) + " " + "to " + "\r\n"); }
+								buffer.write("Betonmenge " + String.valueOf(festi.get(j)) + "                        : " + ((float)Math.round(Stahlbetonbauteil.computeVolume(Gebaeude, festi.get(j))*10000))/10000 + " m^3" + "\r\n"); }
+							buffer.write("Bewehrungsmenge                          : " + ((float)Math.round(Stahlbetonbauteil.Bewehrungsmenge(Gebaeude)*10000))/10000 + " " + "to " + "\r\n"); }
 					}
 
 					//Text Türen und Fenster
@@ -348,4 +355,6 @@ public class GebaeudeplanerGUI {
 			}
 		}
 		return anzahlFenster;
+
 	}}
+

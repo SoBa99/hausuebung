@@ -15,6 +15,7 @@ public class Opening {
 	public double getFlaeche() {
 		return this.width * this.height;
 	}
+
 }
 
 
